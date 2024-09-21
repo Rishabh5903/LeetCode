@@ -3,7 +3,7 @@ public:
     vector<int> lexicalOrder(int n) {
         int curr=1;
         vector<int> ans;
-        while(curr){
+
             while(curr%10<=9){
             while(curr<=n){
                 ans.push_back(curr);
@@ -14,7 +14,6 @@ public:
             if(curr==0)break;
             curr++;
             }
-            
-        }return ans;
+        return ans;
     }
 };
