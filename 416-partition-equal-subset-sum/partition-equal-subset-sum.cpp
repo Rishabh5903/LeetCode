@@ -15,8 +15,8 @@ public:
             for(int j=1;j<=tot;j++){
                 // if(i==n-1)if(nums[i]==j)dp[i][j]=true;
                 // else{
-                if(nums[i]<=j)dp[i][j]=(dp[i][j] || dp[i+1][j-nums[i]] || dp[i+1][j]);
-                else dp[i][j]=(dp[i][j] || dp[i+1][j]);
+                if(nums[i]<=j)dp[i][j]=(dp[i+1][j-nums[i]] || dp[i+1][j]);
+                else dp[i][j]=(dp[i+1][j]);
                 // }
                 
             }
