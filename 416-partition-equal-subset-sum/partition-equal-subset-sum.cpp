@@ -4,8 +4,8 @@ public:
         int n=nums.size();
         int tot=accumulate(nums.begin(),nums.end(),0);
         if(tot%2)return false;
-        // tot/=2;
-        bool dp[201][200001];
+        tot/=2;
+        bool dp[n+1][tot+1];
 
         memset(dp,false,sizeof(dp));
         for (int i = 0; i <= n; i++) {
@@ -21,6 +21,6 @@ public:
                 
             }
         }
-        return dp[0][tot/2];
+        return dp[0][tot];
     }
 };
