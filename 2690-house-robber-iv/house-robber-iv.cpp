@@ -10,10 +10,10 @@ bool check(vector<int>& nums,int k,int mid){
 }
     int minCapability(vector<int>& nums, int k) {
         int l=1,r=*max_element(nums.begin(),nums.end()),mid;
-        while(l<=r){
+        while(l<r){
             mid=l+(r-l)/2;
-            if(check(nums,k,mid))r=mid-1;else l=mid+1;
+            if(check(nums,k,mid))r=mid;else l=mid+1;
         }
-        return r+1;
+        return r;
     }
 };
