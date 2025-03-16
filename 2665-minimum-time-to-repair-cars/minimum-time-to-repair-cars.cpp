@@ -1,15 +1,16 @@
 class Solution {
 public:
+    bool chk(vector<int>& ranks,int& cars,long long mid){
+        long long temp=0;
+        for(int i:ranks)temp+=sqrt(mid/i);
+        return temp>=cars;
+    }
     long long repairCars(vector<int>& ranks, int cars) {
-        priority_queue<tuple<long long,long long,long long>,vector<tuple<long long,long long,long long>>,greater<tuple<long long,long long,long long>>> pq;
-        for(long long i:ranks){
-            pq.push({i,i,1});
+        long long l=1,r=1e15,mid;
+        while(l<=r){
+            mid=l+(r-l)/2;
+            if(chk(ranks,cars,mid))r=mid-1;else l=mid+1;
         }
-        long long ans=0;
-        while(cars){
-            auto [x,y,z]=pq.top();pq.pop();ans=max(ans,x);pq.push({y*(z+1)*(z+1),y,z+1});
-            cars--;
-        }
-        return ans;
+        return r+1;
     }
 };
