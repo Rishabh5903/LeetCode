@@ -15,18 +15,22 @@ public:
                 // dist++;
             }
         }
+        int maxo=0;
         for(int i=0;i<=m;i++){
             for(int j=0;j<=m;j++){vis[j]=0;dist[i]=0;}
-            while(q.size())q.pop();q.push(i);n2[i]=1;
-            if(k)
+            while(q.size())q.pop();q.push(i);
+            if(k){
+                n2[i]=1;
             while(q.size() && dist[q.front()]<(k-1)){
                 int j=q.front();q.pop();vis[j]=1;
                 for(int p:g2[j])if(!vis[p]){dist[p]=dist[j]+1;if(dist[p]<=k)n2[i]++;q.push(p);vis[p]=1;}
                 // dist++;
+            };
+            maxo=max(maxo,n2[i]);
             }
         }
     vector<int> ans(n);
-    int maxo=(k ? *max_element(n2.begin(),n2.end()) : 0);
+    // int maxo=(k ? *max_element(n2.begin(),n2.end()) : 0);
     for(int i=0;i<n;i++)ans[i]=n1[i]+maxo;
     return ans;
 
