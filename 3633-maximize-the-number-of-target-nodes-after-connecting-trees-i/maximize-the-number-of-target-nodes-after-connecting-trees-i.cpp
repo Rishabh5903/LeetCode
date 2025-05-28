@@ -1,7 +1,7 @@
 class Solution {
 public:
     vector<int> maxTargetNodes(vector<vector<int>>& edges1, vector<vector<int>>& edges2, int k) {
-        vector<vector<int>> g1(1001),g2(1001);int n=edges1.size()+1;
+        vector<vector<int>> g1(1001),g2(1001);int n=edges1.size()+1,m=edges2.size()+1;
         for(auto i:edges1){g1[i[0]].push_back(i[1]);g1[i[1]].push_back(i[0]);}
         for(auto i:edges2){g2[i[0]].push_back(i[1]);g2[i[1]].push_back(i[0]);}
         vector<int> n1(1001),n2(1001);
@@ -15,9 +15,10 @@ public:
                 // dist++;
             }
         }
-        for(int i=0;i<=1000;i++){
-            for(int j=0;j<=1000;j++){vis[j]=0;dist[i]=0;}
+        for(int i=0;i<=m;i++){
+            for(int j=0;j<=m;j++){vis[j]=0;dist[i]=0;}
             while(q.size())q.pop();q.push(i);n2[i]=1;
+            if(k)
             while(q.size() && dist[q.front()]<(k-1)){
                 int j=q.front();q.pop();vis[j]=1;
                 for(int p:g2[j])if(!vis[p]){dist[p]=dist[j]+1;if(dist[p]<=k)n2[i]++;q.push(p);vis[p]=1;}
