@@ -15,7 +15,7 @@ public:
                 // open[curr]=1;
                 // s.erase(curr);
             }
-            else if(vis[curr]==2){q.pop();}
+            else if(vis[curr]==1){q.pop();}
             else {
                 q.pop();q.push(curr);
                 vis[curr]+=1;}
