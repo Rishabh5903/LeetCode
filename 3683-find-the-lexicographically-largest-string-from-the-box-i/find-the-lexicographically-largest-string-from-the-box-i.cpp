@@ -1,18 +1,22 @@
 class Solution {
 public:
-    string answerString(string word, int n) {
-        if(n==1)return word;
-        int m=word.size();
-        // char c='a';
-        // for(char ch:word)c=max(c,ch);
-        string ans="";string temp="";char prev='a';
-        for(int i=0;i<m;i++){
-            prev=max(prev,word[i]);
-            if(word[i]<prev)continue;temp="";
-            for(int j=i;j<min(m,i+m-n+1);j++)temp+=word[j];
-            ans=max(ans,temp);
+    string answerString(string word, int numFriends) {
+        if(numFriends == 1) return word;
+
+        vector<int> v;
+        char ch = *max_element(word.begin(), word.end());
+        int n = word.size();
+        int ele = n - numFriends + 1;
+        string maxa = "";
+
+        for (int i = 0; i < n; ++i) {
+            if (word[i] == ch) v.push_back(i);
         }
-        return ans;
-        
+        for (int i : v) {
+            string ans = (ele <= n - i) ? word.substr(i, ele) : word.substr(i);
+            maxa = max(maxa, ans);
+        }
+
+        return maxa;
     }
 };
