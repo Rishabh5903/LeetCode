@@ -1,22 +1,29 @@
 class Solution {
 public:
     string clearStars(string s) {
-        priority_queue<pair<char,int>,vector<pair<char,int>>, greater<pair<char,int>>> pq;
-        vector<bool> keep(s.size(),true);
-        for(int i=0;i<s.size();i++){
-            if(s[i]!='*'){
-                pq.push({s[i],-i});
-            }
-            else{
-                keep[i]=0;
-                keep[-pq.top().second]=0;pq.pop();
+        int n = s.size();
+        priority_queue<char, vector<char>, greater<char>> pq;  // Min-heap
+        unordered_map<char, vector<int>> m;  // Stores indices of each character
+        vector<bool> v(n, true);  // Marks whether each char in s should be kept
+
+        for (int i = 0; i < n; i++) {
+            if (s[i] == '*') {
+                char temp = pq.top();  // Get smallest char so far
+                pq.pop();
+                int last = m[temp].back();  // Get last occurrence index
+                m[temp].pop_back();
+                v[i] = false;       // Remove '*'
+                v[last] = false;    // Remove corresponding smallest char
+            } else {
+                pq.push(s[i]);
+                m[s[i]].push_back(i);
             }
         }
-        // sort(ind.begin(),ind.end());
-        string ans="";int j=0;
-        for(int i=0;i<s.size();i++){
-            if(keep[i])ans+=s[i];
+
+        string result = "";
+        for (int i = 0; i < n; i++) {
+            if (v[i]) result += s[i];
         }
-        return ans;
+        return result;
     }
 };
