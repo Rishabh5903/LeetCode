@@ -1,30 +1,32 @@
 class Solution {
 public:
-    int dp[501][170];
-
-    int solve(vector<int>& slices, int i, int rem, int end) {
-        if (rem == 0) return 0;
-        if (i > end) return INT_MIN;
-        if (dp[i][rem] != -1) return dp[i][rem];
-
-        int skip = solve(slices, i + 1, rem, end);
-        int takeNext = solve(slices, i + 2, rem - 1, end);
-        int take = (takeNext == INT_MIN ? INT_MIN : slices[i] + takeNext);
-
-        return dp[i][rem] = max(skip, take);
-    }
-
     int maxSizeSlices(vector<int>& slices) {
         int n = slices.size();
-        int k = n / 3;
-
-        memset(dp, -1, sizeof(dp));
-        int ans1 = solve(slices, 1, k, n - 1);
-
-        memset(dp, -1, sizeof(dp));
-        int suffix = solve(slices, 2, k - 1, n - 2);
-        int ans2 = (suffix == INT_MIN ? INT_MIN : slices[0] + suffix);
-
-        return max(ans1, ans2);
+        int K = n / 3;
+        static int dp[502][170][2];
+        for (int i = 0; i <= n+1; ++i) {
+            for (int rem = 0; rem <= K; ++rem) {
+                for (int f = 0; f < 2; ++f) {
+                    dp[i][rem][f] = (rem == 0 ? 0 : INT_MIN);
+                }
+            }
+        }
+        for (int i = n - 1; i >= 0; --i) {
+            for (int rem = 1; rem <= K; ++rem) {
+                for (int f = 0; f < 2; ++f) {
+                    if (i == n - 1 && f == 1) {
+                        dp[i][rem][f] = INT_MIN;
+                        continue;
+                    }
+                    int skip = dp[i + 1][rem][ i == 0 ? 0 : f ];
+                    int nf = (i == 0 ? 1 : f);
+                    int take = INT_MIN;
+                    if (dp[i + 2][rem - 1][nf] != INT_MIN)
+                        take = slices[i] + dp[i + 2][rem - 1][nf];
+                    dp[i][rem][f] = max(skip, take);
+                }
+            }
+        }
+        return dp[0][K][0];
     }
 };
