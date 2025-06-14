@@ -1,22 +1,30 @@
 class Solution {
 public:
-    int maxSizeSlices(vector<int>& slices) {
-        int n = (int)slices.size() / 3;
-        auto l1 = vector<int>(slices.begin(), slices.end()-1);
-        auto l2 = vector<int>(slices.begin()+1, slices.end());
-        return max(linear(l1, n), linear(l2, n));
+    int dp[501][170];
+
+    int solve(vector<int>& slices, int i, int rem, int end) {
+        if (rem == 0) return 0;
+        if (i > end) return INT_MIN;
+        if (dp[i][rem] != -1) return dp[i][rem];
+
+        int skip = solve(slices, i + 1, rem, end);
+        int takeNext = solve(slices, i + 2, rem - 1, end);
+        int take = (takeNext == INT_MIN ? INT_MIN : slices[i] + takeNext);
+
+        return dp[i][rem] = max(skip, take);
     }
-    
-private:
-    int linear(vector<int>& slices, int n) {
-        vector<vector<int>> eat((int)slices.size()+2, vector<int>(n+1, INT_MIN));
-        int res = INT_MIN;
-        for (int i=0; i<eat.size(); ++i) eat[i][0] = 0;
-        for (int i=2; i<eat.size(); ++i) {
-            for (int j=1; j<n+1; ++j)
-                eat[i][j] = max(eat[i-1][j], eat[i-2][j-1] + slices[i-2]);
-            res = max(eat[i][n], res);
-        }
-        return res;
+
+    int maxSizeSlices(vector<int>& slices) {
+        int n = slices.size();
+        int k = n / 3;
+
+        memset(dp, -1, sizeof(dp));
+        int ans1 = solve(slices, 1, k, n - 1);
+
+        memset(dp, -1, sizeof(dp));
+        int suffix = solve(slices, 2, k - 1, n - 2);
+        int ans2 = (suffix == INT_MIN ? INT_MIN : slices[0] + suffix);
+
+        return max(ans1, ans2);
     }
 };
