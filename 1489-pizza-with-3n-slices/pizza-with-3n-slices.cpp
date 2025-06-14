@@ -20,9 +20,9 @@ public:
                     }
                     int skip = dp[i + 1][rem][ i == 0 ? 0 : f ];
                     int nf = (i == 0 ? 1 : f);
-                    int take = INT_MIN;
-                    if (dp[i + 2][rem - 1][nf] != INT_MIN)
-                        take = slices[i] + dp[i + 2][rem - 1][nf];
+                    // int take = INT_MIN;
+                    // if (dp[i + 2][rem - 1][nf] != INT_MIN)
+                    int take = slices[i] + dp[i + 2][rem - 1][nf];
                     dp[i][rem][f] = max(skip, take);
                 }
             }
