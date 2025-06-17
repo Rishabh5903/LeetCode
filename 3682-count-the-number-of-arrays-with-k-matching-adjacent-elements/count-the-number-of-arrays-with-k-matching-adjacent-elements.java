@@ -23,9 +23,7 @@ class Solution {
         if(k>=n)return 0;
         long ans=m;
         long mod=1000000007;
-        for(long i=0;i<n-k-1;i++){
-            ans=(ans*(m-1))%mod;
-        }
+        ans = (ans*expo(m-1,n-k-1,mod))%mod;
         ans = (ans*nCr(n-1,k,mod))%mod;
         return (int)ans;
     }
