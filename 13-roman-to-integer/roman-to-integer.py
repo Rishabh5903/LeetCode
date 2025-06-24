@@ -17,8 +17,8 @@ class Solution:
         ans = 0
         i=0
         while(i<len(s)):
-            if(i<len(s)-1 and (s[i:i+2] in map)):
-                ans+= map[s[i:i+2]]
+            if(i<len(s)-1 and (s[i]+s[i+1] in map)):
+                ans+= map[s[i]+s[i+1]]
                 i+= 2
             else:
                 ans+= map[s[i]]
