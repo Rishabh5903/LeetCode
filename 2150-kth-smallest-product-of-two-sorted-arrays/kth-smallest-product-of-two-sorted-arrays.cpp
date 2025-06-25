@@ -17,6 +17,7 @@ bool chk(long long mid, vector<int>& nums1, vector<int>& nums2, long long k){
 }
     long long kthSmallestProduct(vector<int>& nums1, vector<int>& nums2, long long k) {
         long long lo=-1e10,hi=1e10;long long mid;
+        if(nums1.size()<nums2.size())swap(nums1,nums2);
         while(lo<=hi){
             mid=lo+(hi-lo)/2;
             if(chk(mid,nums1,nums2,k))hi=mid-1;else lo=mid+1;
