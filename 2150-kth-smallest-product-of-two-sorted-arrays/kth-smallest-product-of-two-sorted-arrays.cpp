@@ -12,8 +12,9 @@ bool chk(long long mid, vector<int>& nums1, vector<int>& nums2, long long k){
         long long ind;
         if(i<0){ind=lower_bound(nums2.begin(),nums2.end(),target)-nums2.begin();cnt+=nums2.size()-ind;}
         else if(i>0){ind=upper_bound(nums2.begin(),nums2.end(),target)-nums2.begin();cnt+=ind;}
+        if(cnt>=k)return true;
     }
-    return cnt>=k;
+    return (cnt>=k);
 }
     long long kthSmallestProduct(vector<int>& nums1, vector<int>& nums2, long long k) {
         long long lo=-1e10,hi=1e10;long long mid;
