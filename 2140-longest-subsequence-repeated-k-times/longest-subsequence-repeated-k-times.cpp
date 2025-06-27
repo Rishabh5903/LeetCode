@@ -10,7 +10,7 @@ public:
         return cnt>=k;
     }
     void solve(string& ans,string& s,string& temp,int& k,vector<int>& fr,vector<int>& curr){
-        if(chk(s,temp,k) && ans.size()<temp.size())ans=temp;
+        if(ans.size()<temp.size() && chk(s,temp,k) )ans=temp;
         if(temp.size()==8)return;
         for(int i=25;i>=0;i--){
             if(curr[i]<(fr[i]/k)){
