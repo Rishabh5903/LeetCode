@@ -15,7 +15,7 @@ public:
         for(int i=25;i>=0;i--){
             if(curr[i]<(fr[i]/k)){
                 temp+=('a'+i);curr[i]++;solve(ans,s,temp,k,fr,curr);
-                temp=temp.substr(0,temp.size()-1);curr[i]--;
+                temp.pop_back();curr[i]--;
             }
         }
     }
