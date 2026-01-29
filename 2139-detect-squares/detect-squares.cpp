@@ -12,18 +12,31 @@ vector<vector<int>> points;
     }
     
     int count(vector<int> point) {
-        int x=point[0], y=point[1];
-        int ans=0;
-        for(int col:points[x]){
-            if(col!=y){
-                int len=abs(y-col);
-                
-                ans+=fr[{x-len,col}]*fr[{x-len,y}];
-                ans+=fr[{x+len,col}]*fr[{x+len,y}];
-            }
+    int x = point[0], y = point[1];
+    int ans = 0;
+
+    for (int col:points[x]) {
+        if (col == y) continue;
+
+        int len = abs(y - col);
+
+        auto it1 = fr.find({x - len, col});
+        auto it2 = fr.find({x - len, y});
+
+        if (it1 != fr.end() && it2 != fr.end() ) {
+            ans += it1->second * it2->second;
         }
-        return ans;
+
+        auto it4 = fr.find({x + len, col});
+        auto it5 = fr.find({x + len, y});
+
+        if (it4 != fr.end() && it5 != fr.end()) {
+            ans += it4->second * it5->second ;
+        }
     }
+    return ans;
+}
+
 };
 
 /**
