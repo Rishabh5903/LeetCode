@@ -11,15 +11,24 @@
  */
 class Solution {
 public:
-    void count(TreeNode* root, int par, int& ans){
-        if(!root)return;
-        if(root->val >=par)ans++;
-        count(root->left, max(par,root->val), ans);
-        count(root->right, max(par,root->val), ans);
+    void traverse(TreeNode* node, int v, int& cnt)
+    {
+        if(node == nullptr) return;
+        if(node->val >= v)
+        {
+            v = node->val; 
+            ++cnt;
+        }
+
+        traverse(node->left, v, cnt);
+        traverse(node->right, v, cnt);
+        
     }
-    int goodNodes(TreeNode* root) {
-        int ans=0;
-        count(root,-1e4-1,ans);
-        return ans;
+
+    int goodNodes(TreeNode* root) 
+    {
+        int cnt = 0;
+        traverse(root, root->val, cnt);
+        return cnt;
     }
 };
