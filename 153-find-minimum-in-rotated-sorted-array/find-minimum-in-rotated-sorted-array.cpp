@@ -5,8 +5,8 @@ public:
         int l=0,r=nums.size()-1,mid;
         while(l<=r){
             mid=l+(r-l)/2;
-            if(nums.back()>=nums[mid])r=mid-1;
-            else l=mid+1;
+            if(nums.back()<nums[mid])l=mid+1;
+            else r=mid-1;
         }
         return nums[r+1];
     }
