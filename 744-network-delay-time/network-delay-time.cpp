@@ -1,37 +1,34 @@
 class Solution {
 public:
     int networkDelayTime(vector<vector<int>>& times, int n, int k) {
-        vector<int> time(n,INT_MAX);
-        priority_queue<vector<int>,vector<vector<int>>,greater<vector<int>>> q;
-        time[k-1]=0;
-        vector<int> vis(n,0);vis[k-1]=1;
-        vector<vector<vector<int>>> g(n);
-        for(auto edge:times){
-            g[edge[0]-1].push_back({edge[2],edge[0]-1,edge[1]-1});
+        vector<int> time(n, INT_MAX);
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> q;
+
+        vector<vector<pair<int,int>>> g(n);
+        for(auto edge: times){
+            g[edge[0]-1].push_back({edge[1]-1, edge[2]});
         }
-        for(auto e:g[k-1]){
-            q.push(e);
-            vis[e[2]]=1;
-        }
+
+        time[k-1] = 0;
+        q.push({0, k-1});
+
         while(q.size()){
-            auto e=q.top();q.pop();
-            int w=e[0],u=e[1],v=e[2];
-            if(time[u]==INT_MAX)continue;
-            if(time[v]>time[u]+w){
-                time[v]=time[u]+w;
-                for(auto e:g[v]){
-                    // if(vis[e[2]])continue;
-                    q.push(e);vis[e[2]]=1;
+            auto [t, u] = q.top(); q.pop();
+            if(t > time[u]) continue;
+
+            for(auto [v, w] : g[u]){
+                if(time[v] > time[u] + w){
+                    time[v] = time[u] + w;
+                    q.push({time[v], v});
                 }
             }
         }
-        int ans=0;
-        for(int i=0;i<n;i++){
-            // if(i==(k-1))continue;
-            if(time[i]==INT_MAX)return -1;
-            else ans=max(ans,time[i]);
+
+        int ans = 0;
+        for(int i = 0; i < n; i++){
+            if(time[i] == INT_MAX) return -1;
+            ans = max(ans, time[i]);
         }
         return ans;
-
     }
 };
