@@ -8,7 +8,7 @@ public:
     
     int next(int n) {
         int ans=-1;
-        while(ind<v.size()-1 && v[ind]<=n && n){
+        while(ind<v.size()-1 && n && v[ind]<=n ){
             n-=v[ind];
             v[ind]=0;
             ans = v[ind+1];
@@ -17,7 +17,7 @@ public:
             
 
         }
-        if(ind != v.size() && v[ind]>=n && n){
+        if(ind != v.size() && n && v[ind]>=n ){
             v[ind]-=n;
             n=0;
             ans=v[ind+1];
