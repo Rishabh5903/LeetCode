@@ -1,25 +1,27 @@
 class Solution {
 public:
     int numberOfWeakCharacters(vector<vector<int>>& properties) {
-        int n = properties.size();
-        vector<int> maxo(n,0);
-        sort(properties.begin(),properties.end());
-        maxo.back() = properties.back()[1];
-        vector<int> attack(n,0);
-        attack.back() = properties.back()[0];
-
-        for(int i=n-2;i>=0;i--){
-            maxo[i]=max(maxo[i+1], properties[i][1]);
-            attack[i] = properties[i][0];
+        int maxAttack = 0, n = properties.size(), ans = 0;
+        for(int i = 0 ; i < n ; i++){
+            maxAttack = max(maxAttack, properties[i][0]);
         }
-        int ans=0;
-        for(int i=0;i<n-1;i++){
-            int ind= upper_bound(attack.begin(),attack.end(), attack[i]) - attack.begin();
-            if(ind<n){
-                if(maxo[ind]>properties[i][1])ans++;
+
+        vector<int> maxDefense(maxAttack+2, 0);
+
+        for(int i = 0 ; i < n ; i++){
+            maxDefense[properties[i][0]] = max(maxDefense[properties[i][0]], properties[i][1]);
+        }
+
+        for(int i = maxDefense.size()-2 ; i >= 0 ; i--){
+            maxDefense[i] = max(maxDefense[i], maxDefense[i+1]);
+        }
+
+        for(int i = 0 ; i < n ; i++){
+            if(maxDefense[properties[i][0]+1] > properties[i][1]){
+                ans++;
             }
         }
-        return ans;
 
+        return ans;
     }
 };
