@@ -24,11 +24,11 @@ int cap;
     }
     void addNode(Node* node){
         
-        Node* temp = head->next;
-        head->next = node;
-        node->next = temp;
-        temp->prev=node;
         node->prev=head;
+        (head->next)->prev = node;
+        node->next = head->next;
+        head->next=node;
+        
     }
 
     void delNode(Node* node){
