@@ -1,76 +1,77 @@
 class LRUCache {
 public:
+int cap;
+
     class Node{
-        public: 
+        public:
             int key;
             int val;
-            Node* prev;
             Node* next;
-
+            Node* prev;
             Node(int key, int val){
                 this->key = key;
                 this->val = val;
             }
-    };
 
+    };
+    unordered_map<int, Node*> mp;
     Node* head = new Node(-1, -1);
     Node* tail = new Node(-1, -1);
-
-    int cap;
-    unordered_map<int, Node*> m;
-
     LRUCache(int capacity) {
         cap = capacity;
-        head -> next = tail;
-        tail -> prev = head;
+        head->next = tail;
+        tail->prev = head;
+    }
+    void addNode(Node* node){
+        
+        Node* temp = head->next;
+        head->next = node;
+        node->next = temp;
+        temp->prev=node;
+        node->prev=head;
     }
 
-    void addNode(Node* newnode){
-        Node* temp = head -> next;
-
-        newnode -> next = temp;
-        newnode -> prev = head;
-
-        head -> next = newnode;
-        temp -> prev = newnode;
+    void delNode(Node* node){
+        // Node* temp = node->prev;
+        (node->prev)->next = node->next;
+        (node->next)->prev = node->prev; 
     }
-
-    void deleteNode(Node* delnode){
-        Node* prevv = delnode -> prev;
-        Node* nextt = delnode -> next;
-
-        prevv -> next = nextt;
-        nextt -> prev = prevv;
-    }
-    
     int get(int key) {
-        if(m.find(key) != m.end()){
-            Node* resNode = m[key];
-            int ans = resNode -> val;
-
-            m.erase(key);
-            deleteNode(resNode);
-            addNode(resNode);
-
-            m[key] = head -> next;
-            return ans;
+        if(mp.count(key)){
+            Node* node = mp[key];
+            delNode(node);
+            addNode(node);
+            return node->val;
         }
         return -1;
     }
     
     void put(int key, int value) {
-        if(m.find(key) != m.end()){
-            Node* curr = m[key];
-            m.erase(key);
-            deleteNode(curr);
+        if(mp.count(key)){
+            Node* node = mp[key];
+            delNode(node);
+            addNode(node);
+            mp[key]->val = value;
+            return;
         }
-
-        if(m.size() == cap){
-            m.erase(tail -> prev -> key);
-            deleteNode(tail -> prev);
+        if(mp.size()<cap){
+            Node* node = new Node(key, value);
+            addNode(node);
+            mp[key] = node;
+            return;
         }
-
-        addNode(new Node(key, value));
-        m[key] = head -> next;
+        Node* temp = tail->prev;
+        delNode(tail->prev);
+        mp.erase(temp->key);
+        Node* node = new Node(key, value);
+        addNode(node);
+        mp[key]=node;
     }
 };
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache* obj = new LRUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */
