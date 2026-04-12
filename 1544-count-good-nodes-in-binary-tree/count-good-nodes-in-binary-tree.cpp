@@ -11,24 +11,18 @@
  */
 class Solution {
 public:
-    void traverse(TreeNode* node, int v, int& cnt)
-    {
-        if(node == nullptr) return;
-        if(node->val >= v)
-        {
-            v = node->val; 
-            ++cnt;
-        }
+    int ans;
+    void isgood(TreeNode* root, int maxo){
+        if(!root)return ;
+        if(root->val >= maxo)ans++;
+        maxo = max(maxo, root->val);
+        isgood(root->left, maxo);
+        isgood(root->right, maxo);
 
-        traverse(node->left, v, cnt);
-        traverse(node->right, v, cnt);
-        
     }
-
-    int goodNodes(TreeNode* root) 
-    {
-        int cnt = 0;
-        traverse(root, root->val, cnt);
-        return cnt;
+    int goodNodes(TreeNode* root) {
+        ans=0;
+        isgood(root, -10001);
+        return ans;
     }
 };
