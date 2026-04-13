@@ -12,12 +12,13 @@ public:
         int maxo=0;
         string ans = "";
         for(int i=0; i<s.size(); i++){
-            for(int j=i; j<s.size(); j++){
+            for(int j=s.size()-1; j>=i; j--){
                 if(ispalindrome(i,j,s)){
                     if(j-i+1 > maxo){
                         maxo = j-i+1;
                         ans= s.substr(i,maxo);
                     }
+                    break;
                 }
             }
         }
